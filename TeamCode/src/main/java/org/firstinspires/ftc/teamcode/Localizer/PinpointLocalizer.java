@@ -41,6 +41,7 @@ public class PinpointLocalizer implements Localizer {
                 pose.getX(), pose.getY(),
                 AngleUnit.RADIANS, pose.getHeading()));
     }
+    @Override
     public double getMagnitude() { return odo.getQuaternion().magnitude(); }
     @Override
     public Pose2d getVelocity() {

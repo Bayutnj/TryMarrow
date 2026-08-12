@@ -5,6 +5,7 @@ import com.seattlesolvers.solverslib.geometry.Pose2d;
 import com.seattlesolvers.solverslib.geometry.Rotation2d;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.Constants.DriveConstants;
 import org.firstinspires.ftc.teamcode.Constants.Enums.DriveType;
 import org.firstinspires.ftc.teamcode.Localizer.Interface.Localizer;
@@ -73,6 +74,12 @@ public class DriveEncoderLocalizer implements Localizer {
 
         velocity = new Pose2d(globalX / dt, globalY / dt, new Rotation2d(dheading / dt));
     }
+
+    @Override
+    public double getMagnitude() {
+        return Quaternion.identityQuaternion().magnitude();
+    }
+
     @Override
     public void setPose(Pose2d pose) { this.pose = pose; }
     @Override

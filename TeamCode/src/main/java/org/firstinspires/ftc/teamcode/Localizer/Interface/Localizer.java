@@ -13,5 +13,6 @@ public interface Localizer {
     double getLateralMultiplier();
 
     double getTurnMultiplier();
+    default double getMagnitude() {return 0;}
     default void resetIMU() {}
 }
