@@ -21,8 +21,8 @@ public class Shooter extends SubsystemBase {
     private SimpleMotorFeedforward ff;
     private PIDController pid;
     private double t = 0; // target Velocity
-    private double baseP = .0005;
-    private double factorP = .0005; // Factor to divide with kP
+    private double baseP = .005;
+    private double factorP = .002; // Factor to divide with kP
     private boolean activated = true;
     private boolean volComp = false;
 
@@ -106,7 +106,7 @@ public class Shooter extends SubsystemBase {
         double ffv = ff.calculate(t); // return voltage
         double ffp = ffv / Robot.getInstance().Voltage.getVoltage(); // return power
 
-        boolean e = Math.abs(((lv + rv) / 2.0) - t) > 100.0;
+        boolean e = Math.abs(((lv + rv) / 2.0) - t) > 60.0;
         if (e) {
             double fkP = baseP / factorP;
             pid.setP(fkP);
