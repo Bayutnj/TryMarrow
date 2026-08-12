@@ -51,7 +51,7 @@ public class DriveEncoderLocalizer implements Localizer {
             double dLF = ticksToInch(leftFront.getDeltaPosition());
             double dLB = ticksToInch(leftBack.getDeltaPosition());
             double dRF = ticksToInch(rightFront.getDeltaPosition());
-            double dRB = ticksToInch(leftBack.getDeltaPosition());
+            double dRB = ticksToInch(rightBack.getDeltaPosition());
             dx = ((dLF + dLB + dRF + dRB) / 4.0) * DriveConstants.ForwardMultiplier;
             dy = ((-dLF + dRF + dLB - dRB) / 4.0) * DriveConstants.LateralMultiplier;
             dheading =
@@ -68,7 +68,7 @@ public class DriveEncoderLocalizer implements Localizer {
         double heading = pose.getHeading(); double cosH = Math.cos(heading);
         double sinH = Math.sin(heading); double globalX = dx * cosH - dy * sinH;
         double globalY = dx * sinH + dy * cosH;
-        pose = new Pose2d(pose.getX() + globalX, pose.getY() + globalX,
+        pose = new Pose2d(pose.getX() + globalX, pose.getY() + globalY,
                 new Rotation2d(heading + dheading));
 
         velocity = new Pose2d(globalX / dt, globalY / dt, new Rotation2d(dheading / dt));

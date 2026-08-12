@@ -34,6 +34,8 @@ public class Robot {
     public void init(HardwareMap map, Localizer localizer, Pose2d start) {
         this.localizer = localizer;
         CoordinateTracker = new PoseTracker(localizer);
+        localizer.setPose(start);
+
         Intake.init(map);
     }
 
