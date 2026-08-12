@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Constants.Enums.LocalizerType;
 import org.firstinspires.ftc.teamcode.Localizer.DriveEncoderLocalizer;
 import org.firstinspires.ftc.teamcode.Localizer.Interface.Localizer;
+import org.firstinspires.ftc.teamcode.Localizer.PinpointLocalizer;
 
 public class Constants {
     public static LocalizerType localizerType = LocalizerType.ENCODER;
@@ -15,7 +16,7 @@ public class Constants {
                 return new DriveEncoderLocalizer(map);
             case PINPOINT:
             default:
-                return new DriveEncoderLocalizer(map); // TODO CHANGE
+                return new PinpointLocalizer(map);
         }
     }
 }

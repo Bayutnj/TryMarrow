@@ -31,7 +31,7 @@ public class DriveConstants {
     // NUMBER
     public static double wheelDiameter = 3.54331;
     public static double ticksPerRev = 537.7;
-    public static double gearRatio = 0.0;
+    public static double gearRatio = 1.0;
 
     public static double ForwardMultiplier = 1.0;
     public static double LateralMultiplier = 1.0;

@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Main.Side;
 
+import android.graphics.CornerPathEffect;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robot.RobotState;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 import com.seattlesolvers.solverslib.geometry.Rotation2d;
 import com.skeletonarmy.marrow.OpModeManager;
 
+import org.firstinspires.ftc.teamcode.Constants.Constants;
 import org.firstinspires.ftc.teamcode.Localizer.Interface.Localizer;
 import org.firstinspires.ftc.teamcode.Localizer.Main.PoseTracker;
 import org.firstinspires.ftc.teamcode.Util.VoltageController;
@@ -26,22 +29,26 @@ public class Robot {
     public PoseTracker CoordinateTracker;
     public  Localizer localizer;
 
-    private Pose2d defaultePose = new Pose2d(0, 0, new Rotation2d(0));
+    private final Pose2d defaultPose = new Pose2d(0, 0, new Rotation2d(0));
 
-    public void init(HardwareMap map, Localizer localizer) {
-        init(map, localizer, defaultePose);
+    public void init(HardwareMap map) {
+        init(map, defaultPose);
+    }
+    public void init(HardwareMap map, Pose2d start) {
+        init(map, Constants.createLocalizer(map), start);
     }
     public void init(HardwareMap map, Localizer localizer, Pose2d start) {
         this.localizer = localizer;
         CoordinateTracker = new PoseTracker(localizer);
-        localizer.setPose(start);
+        CoordinateTracker.setPose(start);
 
+        Voltage.init(map);
         Intake.init(map);
     }
 
     public void periodic() {
+        CoordinateTracker.update();
         Intake.periodic();
-
     }
 
     public RobotState getRobotState() {

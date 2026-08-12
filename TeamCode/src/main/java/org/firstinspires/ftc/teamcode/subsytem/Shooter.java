@@ -69,8 +69,8 @@ public class Shooter extends SubsystemBase {
         activated = true;
     }
 
-    public void enableVoltageCompensation(boolean e) {
-        volComp = true;
+    public void setVoltageCompensation(boolean e) {
+        volComp = e;
     }
 
     public void setTargetByDistance(double d) {
