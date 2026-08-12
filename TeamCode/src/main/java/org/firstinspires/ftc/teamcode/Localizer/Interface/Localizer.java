@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.Localizer.Interface;
 
-import com.seattlesolvers.solverslib.geometry.Pose2d;
-import com.seattlesolvers.solverslib.geometry.Vector2d;
 
+import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 public interface Localizer {
-    Pose2d getPose();
-    Pose2d getVelocity();
-    Vector2d getVelocityVector();
-    void setStartPose(Pose2d Start);
-    void setPose(Pose2d setPose);
     void update();
-    void resetIMU() throws InterruptedException;
-    double getIMUHeading();
+    Pose2d getPose();
+    void setPose(Pose2d pose);
+    Pose2d getVelocity();
+    double getForwardMultiplier();
+
+    double getLateralMultiplier();
+
+    double getTurnMultiplier();
+    default void resetIMU() {}
 }
