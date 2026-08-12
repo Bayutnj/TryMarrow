@@ -8,6 +8,7 @@ import com.seattlesolvers.solverslib.controller.wpilibcontroller.SimpleMotorFeed
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.seattlesolvers.solverslib.util.InterpLUT;
+import com.seattlesolvers.solverslib.util.MathUtils;
 
 import org.firstinspires.ftc.teamcode.Constants.ShooterConstants;
 import org.firstinspires.ftc.teamcode.Main.Side.Robot;
@@ -20,6 +21,8 @@ public class Shooter extends SubsystemBase {
     private SimpleMotorFeedforward ff;
     private PIDController pid;
     private double t = 0; // target Velocity
+    private double baseP = .0005;
+    private double factorP = .0005; // Factor to divide with kP
     private boolean activated = true;
     private boolean volComp = false;
 
@@ -35,7 +38,7 @@ public class Shooter extends SubsystemBase {
         fl2.setRunMode(Motor.RunMode.RawPower);
 
         ff = new SimpleMotorFeedforward(.2, .4);
-        pid = new PIDController(.5, .43, .3);
+        pid = new PIDController(baseP, .43, .3);
 
         pid.setTolerance(50, 50);
 
@@ -52,9 +55,21 @@ public class Shooter extends SubsystemBase {
         return (fl1.getVelocity() + fl2.getVelocity()) / 2.0;
     }
 
+//    private double getVoltPower(double p) {
+//        if (volComp) {
+//            return Robot.getInstance().Voltage.getPower(p);
+//        }
+//        return p;
+//    }
+//    public void set(double p) {
+//       double compensP = getVoltPower(p);
+//       fl1.set(compensP);
+//       fl2.set(compensP);
+//    }
+
     public void set(double p) {
         if (volComp) {
-            p = Robot.getInstance().Voltage.getVoltage();
+            p = Robot.getInstance().Voltage.getPower(p);
         }
         fl1.set(p);
         fl2.set(p);
@@ -62,7 +77,8 @@ public class Shooter extends SubsystemBase {
 
     public void turnOff() {
         activated = false;
-        set(0);
+        fl1.set(0);
+        fl2.set(0);
     }
 
     public void turnOn() {
@@ -84,16 +100,24 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         double lv = fl1.getVelocity();
-        double rv = fl2.getVelocity();
-        double lcontrol = pid.calculate(lv, t);
-        double rcontrol = pid.calculate(rv, t);
-        double ffv = ff.calculate(t);
-        double ffp = ffv / Robot.getInstance().Voltage.getVoltage();
+        double rv = fl2.getVelocity(); // get
+        double lcontrol = pid.calculate(lv, t); // velocity --> power by pid
+//        double rcontrol = pid.calculate(rv, t);
+        double ffv = ff.calculate(t); // return voltage
+        double ffp = ffv / Robot.getInstance().Voltage.getVoltage(); // return power
+
+        boolean e = Math.abs(((lv + rv) / 2.0) - t) > 100.0;
+        if (e) {
+            double fkP = baseP / factorP;
+            pid.setP(fkP);
+        } else {
+            pid.setP(baseP);
+        }
+
+       double fpower = MathUtils.clamp(ffp + lcontrol , -1, 1);
 
         if (activated) {
-            set(ffp);
+            set(fpower);
         }
     }
-
-
 }
