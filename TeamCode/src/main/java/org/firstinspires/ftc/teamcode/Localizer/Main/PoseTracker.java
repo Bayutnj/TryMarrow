@@ -25,6 +25,13 @@ public class PoseTracker {
     }
 
     public void update() {
-        previousVelocity =
+        previousVelocity = getVelocity();
+
+    }
+
+
+    public Pose2d getVelocity() {
+        if (currentVelocity == null) currentVelocity = localizer.getVelocity();
+        return currentVelocity;
     }
 }

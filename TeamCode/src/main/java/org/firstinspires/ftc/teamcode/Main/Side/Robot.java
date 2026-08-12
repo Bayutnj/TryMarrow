@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.Main;
+package org.firstinspires.ftc.teamcode.Main.Side;
 
-import org.firstinspires.ftc.teamcode.Constants.IntakeConstants;
+import com.qualcomm.robotcore.robot.RobotState;
+import com.skeletonarmy.marrow.OpModeManager;
+
 import org.firstinspires.ftc.teamcode.Util.VoltageController;
 import org.firstinspires.ftc.teamcode.subsytem.SingleIntake;
 
@@ -13,9 +15,15 @@ public class Robot {
 
     public static Robot getInstance() {return INSTANCE;}
 
+    private RobotState robotState = OpModeManager.getRobotState();
     public final SingleIntake Intake;
     public final VoltageController Voltage;
 
     public void init() {
     }
+
+    public RobotState getRobotState() {
+        return robotState;
+    }
+
 }

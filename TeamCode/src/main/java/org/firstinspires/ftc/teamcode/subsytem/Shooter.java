@@ -10,8 +10,7 @@ import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.seattlesolvers.solverslib.util.InterpLUT;
 
 import org.firstinspires.ftc.teamcode.Constants.ShooterConstants;
-import org.firstinspires.ftc.teamcode.Main.Robot;
-import org.firstinspires.ftc.teamcode.Util.VoltageController;
+import org.firstinspires.ftc.teamcode.Main.Side.Robot;
 
 @Disabled
 public class Shooter extends SubsystemBase {
@@ -50,7 +49,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return fl1.getVelocity() + fl2.getVelocity() / 2.0;
+        return (fl1.getVelocity() + fl2.getVelocity()) / 2.0;
     }
 
     public void set(double p) {
@@ -58,7 +57,7 @@ public class Shooter extends SubsystemBase {
             p = Robot.getInstance().Voltage.getVoltage();
         }
         fl1.set(p);
-        fl1.set(p);
+        fl2.set(p);
     }
 
     public void turnOff() {
