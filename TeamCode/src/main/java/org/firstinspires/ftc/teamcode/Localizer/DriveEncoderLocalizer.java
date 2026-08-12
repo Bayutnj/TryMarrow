@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Localizer;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Localizer.Interface.Localizer;
 
-public class DriveEncoderLocalizer {
-    private ElapsedTime deltaTime;
-
+public class DriveEncoderLocalizer implements Localizer {
 }

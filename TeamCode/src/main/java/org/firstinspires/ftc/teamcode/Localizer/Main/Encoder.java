@@ -1,4 +1,4 @@
 package org.firstinspires.ftc.teamcode.Localizer.Main;
 
-public class PoseTracker {
+public class Encoder {
 }
