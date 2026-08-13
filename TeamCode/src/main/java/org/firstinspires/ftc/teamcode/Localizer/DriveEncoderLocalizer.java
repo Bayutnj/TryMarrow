@@ -48,7 +48,8 @@ public class DriveEncoderLocalizer implements Localizer {
         Long now = System.nanoTime(); double dt = Math.max((now - previousNanoTime) / 1e9, 1e-6);
         previousNanoTime = now;
 
-        double dx, dy, dheading; if (type == DriveType.MECANUM) {
+        double dx, dy, dheading;
+        if (type == DriveType.MECANUM) {
             double dLF = ticksToInch(leftFront.getDeltaPosition());
             double dLB = ticksToInch(leftBack.getDeltaPosition());
             double dRF = ticksToInch(rightFront.getDeltaPosition());
@@ -77,7 +78,9 @@ public class DriveEncoderLocalizer implements Localizer {
 
     @Override
     public double getMagnitude() {
-        return Quaternion.identityQuaternion().magnitude();
+        double vx = velocity.getX();
+        double vy = velocity.getY();
+        return Math.hypot(vx, vy);
     }
 
     @Override

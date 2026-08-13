@@ -8,22 +8,28 @@ import com.seattlesolvers.solverslib.geometry.Pose2d;
 import com.seattlesolvers.solverslib.geometry.Rotation2d;
 import com.skeletonarmy.marrow.OpModeManager;
 
+import org.firstinspires.ftc.teamcode.Constants.Alliance;
 import org.firstinspires.ftc.teamcode.Constants.Constants;
+import org.firstinspires.ftc.teamcode.Constants.DriveConstants;
 import org.firstinspires.ftc.teamcode.Localizer.Interface.Localizer;
 import org.firstinspires.ftc.teamcode.Localizer.Main.PoseTracker;
 import org.firstinspires.ftc.teamcode.Util.VoltageController;
+import org.firstinspires.ftc.teamcode.subsytem.Drive;
 import org.firstinspires.ftc.teamcode.subsytem.SingleIntake;
 
 public class Robot {
     public static Robot INSTANCE = new Robot();
     private Robot() {
         Voltage = new VoltageController();
+        drive = new Drive();
         Intake = new SingleIntake();
     }
 
     public static Robot getInstance() {return INSTANCE;}
 
     private RobotState robotState = OpModeManager.getRobotState();
+    public Alliance a;
+    public final Drive drive;
     public final SingleIntake Intake;
     public final VoltageController Voltage;
     public PoseTracker CoordinateTracker;
@@ -35,18 +41,21 @@ public class Robot {
         init(map, defaultPose);
     }
     public void init(HardwareMap map, Pose2d start) {
-        init(map, Constants.createLocalizer(map), start);
+        init(map, a, Constants.createLocalizer(map), start);
     }
-    public void init(HardwareMap map, Localizer localizer, Pose2d start) {
+    public void init(HardwareMap map, Alliance a, Localizer localizer, Pose2d start) {
         this.localizer = localizer;
+        this.a = a;
         CoordinateTracker = new PoseTracker(localizer);
         CoordinateTracker.setPose(start);
 
+        drive.init(map);
         Voltage.init(map);
         Intake.init(map);
     }
 
     public void periodic() {
+        drive.periodic();
         CoordinateTracker.update();
         Intake.periodic();
     }

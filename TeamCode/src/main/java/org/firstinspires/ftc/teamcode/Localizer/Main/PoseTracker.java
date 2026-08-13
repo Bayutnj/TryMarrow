@@ -30,6 +30,10 @@ public class PoseTracker {
                 new Rotation2d(currentPose.getHeading() + startOffset.getHeading()));
     }
 
+    public double getMagnitude() {
+        return localizer.getMagnitude();
+    }
+
     public Pose2d getVelocity() {
         return currentVelocity;
     }

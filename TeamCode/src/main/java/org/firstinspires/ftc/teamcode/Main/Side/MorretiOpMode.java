@@ -4,15 +4,19 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
+import org.firstinspires.ftc.teamcode.Constants.Alliance;
+
 import java.util.List;
 
 public class MorretiOpMode extends OpMode {
     protected GamepadEx base, helper;
     protected List<LynxModule> allhubs;
     protected Robot r;
+    protected Alliance a;
     public void onInit() {}
     public void onStart() {}
     public void onUpdate() {}
+    public void setAlliance() {a = Alliance.RED; }
 
 
     @Override
@@ -25,13 +29,13 @@ public class MorretiOpMode extends OpMode {
         }
         r = Robot.getInstance();
 
-
         onInit();
+        setAlliance();
     }
 
     @Override
     public void start() {
-        r.init(hardwareMap, null);
+        r.init(hardwareMap, a.spawnPose);
         onStart();
     }
 
@@ -40,7 +44,9 @@ public class MorretiOpMode extends OpMode {
         for (LynxModule hub : allhubs) {
             hub.clearBulkCache();
         }
-
+        base.readButtons();
+        helper.readButtons();
         onUpdate();
+        r.periodic();
     }
 }
