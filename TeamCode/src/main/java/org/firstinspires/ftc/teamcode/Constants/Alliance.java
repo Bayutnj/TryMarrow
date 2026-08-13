@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.Constants;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 public enum Alliance {
-    BLUE(20, new Pose2d(), new Pose2d()),
-    RED(24, new Pose2d(), new Pose2d());
+    BLUE(20, new Pose2d(1, 1,1 ), new Pose2d(1, 1, 1)),
+    RED(24, new Pose2d(1,1,1 ), new Pose2d(1,1,1 ));
     public final int id;
     public final Pose2d targetPose;
     public final Pose2d spawnPose;
@@ -13,4 +13,6 @@ public enum Alliance {
         this.targetPose = targetPose;
         this.spawnPose = spawnPose;
     }
+
+
 }

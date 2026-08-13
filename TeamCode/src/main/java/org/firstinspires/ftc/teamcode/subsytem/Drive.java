@@ -6,8 +6,10 @@ import com.seattlesolvers.solverslib.drivebase.DifferentialDrive;
 import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
+import com.seattlesolvers.solverslib.geometry.Rotation2d;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.seattlesolvers.solverslib.kinematics.wpilibkinematics.ChassisSpeeds;
+import com.seattlesolvers.solverslib.util.MathUtils;
 
 import org.firstinspires.ftc.teamcode.Constants.DriveConstants;
 import org.firstinspires.ftc.teamcode.Constants.Enums.DriveType;
@@ -60,7 +62,7 @@ public class Drive extends SubsystemBase {
     }
 
     public void drive(GamepadEx g) {
-        double heading = r.localizer.getPose().getHeading();
+        double heading = r.CoordinateTracker.getPose().getHeading();
         if (driveType == DriveType.MECANUM) {
             double forward_power = InputScaler.scaleInputHigh(g.getLeftY());
             double lateral_power = -InputScaler.scaleInputHigh(g.getLeftX());
@@ -87,6 +89,17 @@ public class Drive extends SubsystemBase {
     @Override
     public void periodic() {
         super.periodic();
+        robotPose = new Pose2d(r.CoordinateTracker.getPose().getX(),
+                r.CoordinateTracker.getPose().getY(), new Rotation2d(r.CoordinateTracker.getPose()
+                .getHeading()));
+        robotVelocity = ChassisSpeeds.fromFieldRelativeSpeeds(
+                new ChassisSpeeds(
+                        r.CoordinateTracker.getVelocity().getX(),
+                        r.CoordinateTracker.getVelocity().getY(),
+                        r.CoordinateTracker.getVelocity().getHeading()
+                ),
+                new Rotation2d(r.CoordinateTracker.getPose().getHeading())
+        );
     }
 
     public void setVoltageCompensation(boolean e) {
